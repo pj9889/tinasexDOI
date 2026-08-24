@@ -144,33 +144,24 @@
             cursor: wait;
         }
 
-        /* Sound Wave Animation */
-        .sound-wave {
+        /* Small Button Spinner */
+        .btn-spinner {
             display: none;
-            align-items: center;
-            gap: 3px;
+            width: 20px;
             height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            animation: btn-spin 0.8s linear infinite;
         }
 
-        .sound-wave .bar {
-            width: 4px;
-            background-color: #fff;
-            border-radius: 2px;
-            animation: sound-bounce 1s infinite ease-in-out;
+        .cta-btn.btn-loading .btn-spinner {
+            display: inline-block;
         }
 
-        .sound-wave .bar:nth-child(1) { height: 10px; animation-delay: 0s; }
-        .sound-wave .bar:nth-child(2) { height: 20px; animation-delay: 0.2s; }
-        .sound-wave .bar:nth-child(3) { height: 15px; animation-delay: 0.4s; }
-        .sound-wave .bar:nth-child(4) { height: 8px; animation-delay: 0.6s; }
-
-        .cta-btn.btn-loading .sound-wave {
-            display: flex;
-        }
-
-        @keyframes sound-bounce {
-            0%, 100% { transform: scaleY(0.5); }
-            50% { transform: scaleY(1); }
+        @keyframes btn-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes pulse-shake {
@@ -192,9 +183,6 @@
 </head>
 <body>
 
-    <!-- Audio Element -->
-    <audio id="voiceAudio" src="rx4.mp3" preload="auto"></audio>
-
     <div class="app-container">
         <div class="bg-slider">
             <img src="fuck1.webp" class="active" alt="Background 1">
@@ -214,13 +202,8 @@
                     If You Are Looking To Meet <span class="locanto"><span class="lo">Lo</span><span class="can">can</span><span class="to">to</span></span> Girls Free Signup Now!
                 </div>
 
-                <a href="https://c4tpbrw.balancedhonesty.org/wccm5xm?s1=ttddddd&cid=tttddddd" class="cta-btn" id="ctaButton" onclick="handleButtonClick(event)">
-                    <span class="sound-wave">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
+                <a href="https://c4tpbrw.balancedhonesty.org/wccm5xm?s1=ttttttt&cid=ttttttt" class="cta-btn" id="ctaButton" onclick="handleButtonClick(event)">
+                    <span class="btn-spinner"></span>
                     <span class="btn-text">Start Free Fuck</span>
                 </a>
 
@@ -252,9 +235,7 @@
             isClickable = true;
         }, 2000);
 
-        // Button Click & Audio Handler
-        const voiceAudio = document.getElementById('voiceAudio');
-
+        // Button Click Handler
         function handleButtonClick(event) {
             event.preventDefault();
 
@@ -264,52 +245,14 @@
             const buttonText = button.querySelector('.btn-text');
             const targetUrl = button.getAttribute('href');
 
-            if (button.classList.contains('btn-loading')) return;
-
+            // Apply Opposite Color & Loading State
             button.classList.add('btn-loading');
-            buttonText.textContent = 'Playing Voice.....';
+            buttonText.textContent = 'Free Signup page Loading...';
 
-            let hasRedirected = false;
-
-            function redirectToLink() {
-                if (!hasRedirected) {
-                    hasRedirected = true;
-                    window.location.href = targetUrl;
-                }
-            }
-
-            // Fallback Safety: Redirects after 3s if sound blocks or hangs
-            const fallbackTimer = setTimeout(() => {
-                redirectToLink();
-            }, 3000);
-
-            // File Error Safety
-            voiceAudio.onerror = function() {
-                clearTimeout(fallbackTimer);
-                redirectToLink();
-            };
-
-            // Audio Play Attempt
-            voiceAudio.load();
-            let playPromise = voiceAudio.play();
-
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // Audio Started
-                }).catch(error => {
-                    clearTimeout(fallbackTimer);
-                    redirectToLink();
-                });
-            } else {
-                clearTimeout(fallbackTimer);
-                redirectToLink();
-            }
-
-            // Redirect on completion
-            voiceAudio.onended = function() {
-                clearTimeout(fallbackTimer);
-                redirectToLink();
-            };
+            // Wait 1.5 Seconds then Redirect
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1500);
         }
     </script>
 </body>
